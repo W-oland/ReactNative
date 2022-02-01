@@ -5,6 +5,7 @@ import {Formik} from 'formik';
 import { StyleSheet } from 'react-native';
 import theme from '../theme';
 //import Text from './Text';
+import * as yup from 'yup';
 
 const styles = StyleSheet.create({
     flexContainer: {
@@ -23,6 +24,19 @@ const initialValues = {
     username: '',
     password: '',
 };
+
+const validationSchema = yup.object().shape({
+    username: yup
+        .string()
+        .min(2, 'Too short')
+        .max(20, 'Too long')
+        .required('Required'),
+    password: yup
+        .string()
+        .min(2, 'Too short')
+        .max(20, 'Too long')
+        .required('Required'),
+});
 
 const SignInForm = ({ onSubmit }) => {
     return (
@@ -78,7 +92,11 @@ const SignIn = () => {
         };
     };
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit} >
+        <Formik 
+            initialValues={initialValues} 
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+        >
             {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
         </Formik>
     )
