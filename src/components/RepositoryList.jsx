@@ -1,5 +1,53 @@
 import React from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { useState, useEffect} from 'react';
+import { FlatList, View } from 'react-native';
+import Item from './RepositoryItem';
+import useRepositories from '../hooks/useRepositories';
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories();
+  
+  console.log(repositories);
+  
+  /*const [repositories, setRepositories] = useState();
+
+  const fetchRepositories = async () => {
+    // Replace the IP address part with your own IP address!
+    const response = await fetch('http://192.168.1.104:5000/api/repositories');
+    const json = await response.json();
+
+    console.log(json);
+
+    setRepositories(json);
+  };
+
+  useEffect(() => {
+    fetchRepositories();
+  }, []);*/
+
+  const ItemSeparator = () => <View style={{height: '10'}} />;
+
+  // Get the nodes from the edges array
+  const repositoryNodes = repositories
+    ? repositories.edges.map(edge => edge.node)
+    : [];
+
+    const renderItem = ({ item }) => (
+      <Item item={item} />
+    );
+
+  return (
+    <FlatList
+      data={repositoryNodes}
+      // Other props
+      ItemSeparatorComponent={ItemSeparator}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+    />
+  );
+};
+
+/*import { FlatList, View, StyleSheet } from 'react-native';
 
 import Item from './RepositoryItem';
 
@@ -72,6 +120,6 @@ const RepositoryList = () => {
       keyExtractor={item => item.id}
     />
   );
-};
+};*/
 
 export default RepositoryList;
