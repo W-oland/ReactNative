@@ -7,6 +7,8 @@ import theme from '../theme';
 //import Text from './Text';
 import * as yup from 'yup';
 
+import {useSignIn} from '../hooks/useSignIn';
+
 const styles = StyleSheet.create({
     flexContainer: {
         display: 'flex',
@@ -83,14 +85,28 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
-    const onSubmit = (values) => {
-        const password = toString(values.password);
-        const username = toString(values.username);
+    const [signIn] = useSignIn();
 
-        if(!isnull(password) && !isnull(username)) {
-            console.log(values);
-        };
+    const onSubmit = async (values) => {
+        const { username, password } = values;
+        console.log(values);
+        
+        /*const username = toString(values.username);
+        const password = toString(values.password);*/
+        
+        try {
+            const { data } = await signIn({ username, password });
+            console.log(data);
+        } catch (e) {
+            console.log(e);
+        }
+
     };
+
+    /*if(!isnull(password) && !isnull(username)) {
+        console.log(values);
+    };*/
+
     return (
         <Formik 
             initialValues={initialValues} 

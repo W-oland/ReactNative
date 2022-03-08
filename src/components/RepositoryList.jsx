@@ -7,8 +7,6 @@ import useRepositories from '../hooks/useRepositories';
 const RepositoryList = () => {
   const { repositories } = useRepositories();
   
-  console.log(repositories);
-  
   /*const [repositories, setRepositories] = useState();
 
   const fetchRepositories = async () => {
